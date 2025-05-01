@@ -9,29 +9,61 @@
       font-family: Arial, sans-serif;
       max-width: 600px;
       margin: 40px auto;
-      padding: 20px;
+      padding: 30px;
+      background-color: #f4f6f8;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     h1 {
       text-align: center;
+      color: #2c3e50;
     }
-    label, select, input {
-      display: block;
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      color: #34495e;
+    }
+    select, input[type="number"] {
       width: 100%;
-      margin-bottom: 15px;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
       font-size: 1rem;
-    }
-    input[type="number"] {
-      padding: 8px;
+      background-color: #fff;
     }
     button {
-      padding: 10px 20px;
+      padding: 12px 20px;
       font-size: 1rem;
+      margin-top: 20px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    button:active {
+      transform: scale(0.97);
     }
     .result {
-      margin-top: 20px;
+      margin-top: 25px;
+      padding: 15px;
+      background-color: #ecf0f1;
+      border-left: 5px solid #3498db;
       font-weight: bold;
       font-size: 1.2rem;
+      color: #2c3e50;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .result.show {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -57,10 +89,14 @@
     function calculateNetto() {
       const contract = document.getElementById('contractType').value;
       const brutto = parseFloat(document.getElementById('brutto').value);
+      const resultBlock = document.getElementById('nettoResult');
       let netto = 0;
 
+      resultBlock.classList.remove('show');
+
       if (isNaN(brutto) || brutto <= 0) {
-        document.getElementById('nettoResult').innerText = 'Введите корректную сумму брутто.';
+        resultBlock.innerText = 'Введите корректную сумму брутто.';
+        resultBlock.classList.add('show');
         return;
       }
 
@@ -71,7 +107,8 @@
         case 'b2b': netto = brutto * 0.81; break;
       }
 
-      document.getElementById('nettoResult').innerText = `Примерная сумма нетто: ${netto.toFixed(2)} зл.`;
+      resultBlock.innerText = `Примерная сумма нетто: ${netto.toFixed(2)} зл.`;
+      resultBlock.classList.add('show');
     }
   </script>
 </body>
