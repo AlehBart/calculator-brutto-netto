@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Калькулятор брутто-нетто Польша</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    h1 { text-align: center; }
+    label, select, input { display: block; width: 100%; margin-bottom: 15px; font-size: 1rem; }
+    input[type="number"] { padding: 8px; }
+    button { padding: 10px 20px; font-size: 1rem; cursor: pointer; }
+    .result { margin-top: 20px; font-weight: bold; font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+  <h1>Калькулятор брутто-нетто в Польше</h1>
+
+  <label for="contractType">Тип договора:</label>
+  <select id="contractType">
+    <option value="etatu">Umowa o pracę (трудовой договор)</option>
+    <option value="zlecenie">Umowa zlecenie (гражданский договор)</option>
+    <option value="dzielo">Umowa o dzieło (договор подряда)</option>
+    <option value="b2b">B2B (самозанятость)</option>
+  </select>
+
+  <label for="brutto">Сумма брутто (зł):</label>
+  <input type="number" id="brutto" min="0" placeholder="Например, 5000">
+
+  <button onclick="calculateNetto()">Рассчитать нетто</button>
+
+  <div class="result" id="nettoResult"></div>
+
+  <script>
+    function calculateNetto() {
+      const contract = document.getElementById('contractType').value;
+      const brutto = parseFloat(document.getElementById('brutto').value);
+      let netto = 0;
+
+      if (isNaN(brutto) || brutto <= 0) {
+        document.getElementById('nettoResult').innerText = 'Введите корректную сумму брутто.';
+        return;
+      }
+
+      switch (contract) {
+        case 'etatu': netto = brutto * 0.715; break;
+        case 'zlecenie': netto = brutto * 0.74; break;
+        case 'dzielo': netto = brutto * 0.80; break;
+        case 'b2b': netto = brutto * 0.81; break;
+      }
+
+      document.getElementById('nettoResult').innerText = `Примерная сумма нетто: ${netto.toFixed(2)} зł`;
+    }
+  </script>
+</body>
+</html>
